@@ -41,8 +41,16 @@ public class Problems {
         if( i == 0 )
             return true;
         else if( string.indexOf( sub ) >= 0 ) {
-            return checkSub( string.substring( string.indexOf( sub ) + sub.length()), sub, i-1);
-//            return checkSub( string.substring( 1 ), sub, i-1);
+            //check if any part of the sub string recurs
+            int j = sub.indexOf( sub.charAt(0), 1);
+
+            if( j >= 0 ) {
+                //trim string leaving any recurring parts of sub so we can detect overlap.
+                String nextString = string.substring(string.indexOf(sub) + j);
+                return checkSub(nextString, sub, i - 1);
+            } else
+                //cut away everything up to the end of the substring.
+                return checkSub( string.substring( string.indexOf( sub ) + sub.length()), sub, i-1);
         } else
             return false;
     }
@@ -56,5 +64,6 @@ public class Problems {
         System.out.println( checkSub( "catcowcat", "cow", 2 ));
         System.out.println( checkSub( "catcowcat", "cow", 1 ));
         System.out.println( checkSub( "xxyxxyxxyxx", "xxyxx", 3 ));
+        System.out.println( checkSub( "abxabxabxab", "abxab", 3 ));
     }
 }
